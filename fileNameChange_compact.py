@@ -40,7 +40,8 @@ class AppDemo(QMainWindow):
     def getSelectedItem(self, name_lst=[], mode=True):
         # items = [self.listbox_view.item(i).text() for i in range(self.listbox_view.count())]
         preview_txt = ""
-        for index, each_file in enumerate(name_lst):
+        index = self.main_ui.startswith_spinbox.value()
+        for each_file in name_lst:
             file_path = Path(each_file)
             directory = os.path.dirname(each_file)
             file_name = file_path.name
@@ -60,11 +61,11 @@ class AppDemo(QMainWindow):
                 else:
                     new_file_name = file_name
                 if self.main_ui.prenumber_checkbox.isChecked():
-                    new_file_name = str(index+1).zfill(self.main_ui.padding_spinbox.value()) + '_' + new_file_name
+                    new_file_name = str(index).zfill(self.main_ui.padding_spinbox.value()) + '_' + new_file_name
             elif self.main_ui.newname_radbtn.isChecked():
-                new_file_name = self.main_ui.newname_ordering_line.text() + "_" + (str(index+1).zfill(self.main_ui.padding_spinbox.value())) + file_extension
+                new_file_name = self.main_ui.newname_ordering_line.text() + "_" + (str(index).zfill(self.main_ui.padding_spinbox.value())) + file_extension
             else:
-                new_file_name = str(index+1).zfill(self.main_ui.padding_spinbox.value()) + file_extension
+                new_file_name = str(index).zfill(self.main_ui.padding_spinbox.value()) + file_extension
 
             new_path = os.path.join(directory, new_file_name)
             if mode:
@@ -72,6 +73,7 @@ class AppDemo(QMainWindow):
             else:
                 self.main_ui.preview_line.setText(new_path)
                 break
+            index += 1
     
     def rename_files(self, state):
         items = [self.listbox_view.item(i).text() for i in range(self.listbox_view.count())]
